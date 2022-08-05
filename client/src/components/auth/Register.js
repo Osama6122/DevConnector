@@ -1,9 +1,12 @@
 import React, {Fragment, useState} from 'react';
+import { connect } from 'react-redux'; // export default syntax changes a little with this.
 import { Link } from 'react-router-dom';
+import { setAlert } from '../../actions/alert';
+import PropTypes from 'prop-types';
 //import axios from 'axios';
 
 
-const Register = () => { 
+const Register = ({ setAlert }) => { 
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -18,7 +21,7 @@ const Register = () => {
   const onSubmit = async e => {
     e.preventDefault();
     if(password !== password2 ) {
-      console.log('Passwords do not match');
+      setAlert('Passwords do not match', 'danger');
     } else {
       console.log('SUCCESS');
       // const newUser = {
@@ -54,7 +57,7 @@ const Register = () => {
         </div>
         <div className="form-group">
           <input type="email" placeholder="Email Address" name="email" value={email} onChange={e => onChange(e)} required />
-          <small className="form-text"
+          <small className="form-text" 
             >This site uses Gravatar so if you want a profile image, use a
             Gravatar email</small
           >
@@ -67,8 +70,8 @@ const Register = () => {
             value={password} 
             onChange={e => onChange(e)}
             minLength="6"
-          />
-        </div>
+          /> 
+        </div> 
         <div className="form-group">
           <input
             type="password"
@@ -86,5 +89,11 @@ const Register = () => {
       </p>
     </Fragment>;
 };
+ 
 
-export default Register;
+Register.propTypes = {
+  setAlert: PropTypes.func.isRequired
+}
+
+export default connect(null, { setAlert })(Register);
+
