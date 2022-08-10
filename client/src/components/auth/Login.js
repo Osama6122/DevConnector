@@ -31,7 +31,7 @@ const Login = () => {
 
       //   const body = JSON.stringify(newUser);
 
-      //   const res = await axios.post('/users', body, config);
+      //   const res = await axios.post('/users', body, config); /users = endpoint
 
       //   console.log(res.data);
       // } catch (err) {
