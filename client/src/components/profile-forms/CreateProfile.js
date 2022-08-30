@@ -1,9 +1,15 @@
  import React, { Fragment, useState } from 'react';
+ import { Link, useNavigate } from 'react-router-dom';
  import PropTypes from 'prop-types';
  import { connect } from 'react-redux';
  import { set } from 'mongoose';
+ import { createProfile } from '../../actions/profile';
 
- const CreateProfile = props => {
+
+
+ const CreateProfile = ({ createProfile, history }) => {
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     company: '',
     website: '',
@@ -39,6 +45,11 @@ const [displaySocialInputs, toggleSocialInputs] = useState(false);
 
   const onChange = e => setFormData({...formData, [e.target.name]: e.target.value });
 
+  const onSubmit = e => {
+    e.preventDefault();
+    createProfile(formData, navigate);
+  } 
+
     return (
     <Fragment>
           <h1 class="large text-primary">
@@ -49,7 +60,7 @@ const [displaySocialInputs, toggleSocialInputs] = useState(false);
         profile stand out
       </p>
       <small>* = required field</small>
-      <form class="form">
+      <form class="form" onSubmit={e => onSubmit(e)}>
         <div class="form-group">
           <select name="status" value={status} onChange={e => onChange(e)}>
             <option value="0">* Select Professional Status</option>
@@ -145,7 +156,7 @@ const [displaySocialInputs, toggleSocialInputs] = useState(false);
           </Fragment>}
 
         
-        <input type="submit" class="btn btn-primary my-1" />
+        <input type="submit" class="btn btn-primary my-1" ></input>
         <a class="btn btn-light my-1" href="dashboard.html">Go Back</a>
       </form>
     </Fragment>
@@ -153,7 +164,9 @@ const [displaySocialInputs, toggleSocialInputs] = useState(false);
  };
 
 CreateProfile.propTypes = {
- 
-}
+  createProfile: PropTypes.func.isRequired
+};
 
-export default CreateProfile
+
+
+export default connect(null, { createProfile })(CreateProfile);
